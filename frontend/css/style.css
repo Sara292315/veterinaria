@@ -375,3 +375,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);bo
 
 @media (max-width:760px){.hero-paw{width:100px;top:6%;right:6%;}}
 @media (prefers-reduced-motion:reduce){.servicio-card,.btn{transition:none;}}
+
+/* ===== Mensajes del formulario y sección de calidad ===== */
+.msg{grid-column:1/-1;padding:14px 18px;border-radius:10px;font-size:.95rem}
+.msg ul{margin:8px 0 0 18px}
+.msg-ok{background:#e6f4ea;color:#14532d;border:1px solid #86c99a}
+.msg-error{background:#fdecea;color:#7f1d1d;border:1px solid #e8a0a0}
+[aria-invalid="true"]{border-color:#b91c1c!important;outline-color:#b91c1c}
+#calidad code{background:rgba(0,0,0,.06);padding:1px 6px;border-radius:4px}

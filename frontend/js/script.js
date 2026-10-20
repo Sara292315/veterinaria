@@ -1,13 +1,44 @@
-document.getElementById('form-citas').addEventListener('submit', function(e){
+const formCitas = document.getElementById('form-citas');
+const msg = document.getElementById('citas-msg');
+document.getElementById('fecha').min = new Date().toISOString().slice(0, 10);
+
+function mostrarMensaje(tipo, titulo, lista = []) {
+  msg.className = 'msg msg-' + tipo;
+  msg.hidden = false;
+  msg.innerHTML = '';
+  const t = document.createElement('strong'); t.textContent = titulo; msg.appendChild(t);
+  if (lista.length) {
+    const ul = document.createElement('ul');
+    lista.forEach(x => { const li = document.createElement('li'); li.textContent = x; ul.appendChild(li); });
+    msg.appendChild(ul);
+  }
+}
+
+function marcarCampos(errores) {
+  formCitas.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
+  Object.keys(errores).forEach(c => { const el = formCitas.elements[c]; if (el) el.setAttribute('aria-invalid', 'true'); });
+}
+
+formCitas.addEventListener('submit', async function (e) {
   e.preventDefault();
-  alert('Solicitud de cita enviada (demostración). En la versión funcional esto se conectará al backend.');
-});
-document.getElementById('form-contacto').addEventListener('submit', function(e){
-  e.preventDefault();
-  alert('Mensaje enviado (demostración).');
-});
-document.getElementById('edad').addEventListener('input', function(){
-  document.getElementById('edad-out').value = this.value;
+  const datos = Object.fromEntries(new FormData(formCitas).entries());
+  datos.recordatorio = new FormData(formCitas).getAll('recordatorio').join(',');
+  let errores = Validators.validarCita(datos);
+  if (!Object.keys(errores).length) {
+    try {
+      const r = await fetch('/api/citas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) });
+      const cuerpo = await r.json();
+      if (r.ok) { marcarCampos({}); mostrarMensaje('ok', 'Solicitud enviada. La veterinaria confirmará tu cita.'); formCitas.reset(); return; }
+      errores = cuerpo.errores || {};
+      if (!Object.keys(errores).length) { mostrarMensaje('error', cuerpo.error || 'No se pudo enviar la solicitud.'); return; }
+    } catch (err) {
+      mostrarMensaje('error', 'No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.');
+      return;
+    }
+  }
+  marcarCampos(errores);
+  mostrarMensaje('error', 'Revisa los siguientes campos:', Object.values(errores));
+  const primero = formCitas.elements[Object.keys(errores)[0]]; if (primero) primero.focus();
 });
 
 /* ===== ANIMACIONES GSAP ===== */

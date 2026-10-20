@@ -321,12 +321,36 @@
           <label for="c-mensaje">Mensaje</label>
           <textarea id="c-mensaje" name="c-mensaje" rows="3"></textarea>
         </div>
+        <div id="citas-msg" class="msg" role="alert" aria-live="polite" hidden></div>
+
+<div class="form-actions">
+  <button type="submit" class="btn">Enviar solicitud</button>
         <div class="form-actions">
           <button type="submit" class="btn">Enviar mensaje</button>
         </div>
       </form>
     </div>
   </section>
+
+<section id="calidad" aria-labelledby="calidad-h">
+  <p class="eyebrow">Aseguramiento de calidad</p>
+  <div class="section-head">
+    <h2 id="calidad-h">Calidad y pruebas del software</h2>
+    <p>Cómo se construyó y se verifica VetConnect, aplicando los temas de Codificación y Pruebas del Software.</p>
+  </div>
+  <p>
+    <a href="https://github.com/Sara292315/veterinaria/actions/workflows/ci.yml" target="_blank" rel="noopener">
+      <img src="https://github.com/Sara292315/veterinaria/actions/workflows/ci.yml/badge.svg?branch=codificacion" alt="Estado del pipeline de integración continua">
+    </a>
+  </p>
+  <ul class="info-list">
+    <li><b>Codificación</b> Validación defensiva de entradas, funciones puras y módulos separados (<code>validators</code>, <code>database</code>, <code>app</code>), con control de versiones en Git.</li>
+    <li><b>Pruebas (xUnit)</b> Batería con <b>pytest</b>: unitarias de caja negra (valores límite) y de caja blanca (cada rama), de integración (API + SQLite) y dobles de prueba (mock) para simular fallos de base de datos.</li>
+    <li><b>Cobertura</b> El pipeline exige un mínimo del 90 % de cobertura de código.</li>
+    <li><b>Integración continua</b> GitHub Actions ejecuta las pruebas en cada <i>push</i> y publica el reporte de cobertura.</li>
+    <li><b>Mantenimiento</b> Registro de fallos corregidos y plan de mantenimiento en <code>docs/registro_fallos.md</code>.</li>
+  </ul>
+</section>
 
   <section id="terminos" aria-labelledby="terminos-h">
     <p class="eyebrow">Antes de continuar</p>
@@ -354,6 +378,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="js/validators.js"></script>
 <script src="js/script.js"></script>
 
 </body>
