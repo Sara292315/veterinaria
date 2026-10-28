@@ -1,0 +1,7 @@
+-r requirements.txt
+flake8>=7.0
+pylint>=3.0
+bandit>=1.7
+radon>=6.0
+xenon>=0.9
+playwright>=1.40

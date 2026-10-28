@@ -1,0 +1,2 @@
+1 failed, 1 passed, 14 errors in 0.16s
+E       TypeError: create_app() got an unexpected keyword argument 'admin_token'

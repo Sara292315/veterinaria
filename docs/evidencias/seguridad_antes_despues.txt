@@ -1,0 +1,19 @@
+## ANTES (commit b9350b9)
+E1 cuerpo JSON lista [1,2]                 -> HTTP 500  <!doctype html> <html lang=en> <title>500 Internal Server Error</title> <h1>Internal Serve
+E2 nombre numérico 123                     -> HTTP 500  <!doctype html> <html lang=en> <title>500 Internal Server Error</title> <h1>Internal Serve
+E3 teléfono '+++++++'                      -> HTTP 201  {"id":2} 
+E4 motivo de 20 000 caracteres             -> HTTP 201  {"id":3} 
+E5 sexo '<script>alert(1)</script>'        -> HTTP 201  {"id":4} 
+E6 nombre "Robert'); DROP TABLE citas;--"  -> HTTP 201  {"id":5} 
+E7 GET /api/citas sin token                -> HTTP 200  [{"canal":"correo","correo":"ana@mail.com","edad":3,"especie":"perro","fecha":"2026-10-29"
+X-Frame-Options en GET /: None
+
+## DESPUÉS (commit 48c886d)
+E1 cuerpo JSON lista [1,2]                 -> HTTP 400  {"errores":{"cuerpo":"Se esperaba un objeto JSON."}} 
+E2 nombre numérico 123                     -> HTTP 400  {"errores":{"nombre":"El nombre debe tener entre 3 y 100 caracteres."}} 
+E3 teléfono '+++++++'                      -> HTTP 400  {"errores":{"telefono":"El tel\u00e9fono debe tener entre 7 y 15 d\u00edgitos."}} 
+E4 motivo de 20 000 caracteres             -> HTTP 413  <!doctype html> <html lang=en> <title>413 Request Entity Too Large</title> <h1>Request Ent
+E5 sexo '<script>alert(1)</script>'        -> HTTP 400  {"errores":{"sexo":"Sexo no v\u00e1lido."}} 
+E6 nombre "Robert'); DROP TABLE citas;--"  -> HTTP 201  {"id":2} 
+E7 GET /api/citas sin token                -> HTTP 401  {"error":"No autorizado."} 
+X-Frame-Options en GET /: DENY

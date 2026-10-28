@@ -1,5 +1,11 @@
 # Mapa del proyecto VetConnect: qué se hizo, en qué archivo y en qué línea
 
+> **Nota (entrega 2):** las secciones 3 a 5 describen la entrega 1 (commit `9b599a9`); los números
+> de línea corresponden a ese commit. Los cambios de la entrega 2 (refactorización, seguridad, TDD,
+> CI por etapas, pruebas E2E y del frontend) están en `docs/registro_fallos.md`,
+> `docs/plan_de_pruebas.md` y `docs/evidencias/`. Estado actual: 104 pruebas Python + 6 de Node,
+> cobertura de sentencias y ramas 100 %.
+
 ## 1. Estructura del proyecto
 
 ```

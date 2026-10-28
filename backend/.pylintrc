@@ -1,0 +1,6 @@
+[MAIN]
+ignore = tests
+
+[MESSAGES CONTROL]
+# Nombres cortos de una letra usados como convención en pruebas parametrizadas
+good-names = e,v,i,d

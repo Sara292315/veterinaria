@@ -1,6 +1,6 @@
 const formCitas = document.getElementById('form-citas');
 const msg = document.getElementById('citas-msg');
-document.getElementById('fecha').min = new Date().toISOString().slice(0, 10);
+document.getElementById('fecha').min = Validators.hoyISO(); // fecha local, no UTC
 
 function mostrarMensaje(tipo, titulo, lista = []) {
   msg.className = 'msg msg-' + tipo;
@@ -27,7 +27,7 @@ formCitas.addEventListener('submit', async function (e) {
   if (!Object.keys(errores).length) {
     try {
       const r = await fetch('/api/citas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) });
-      const cuerpo = await r.json();
+      const cuerpo = await r.json().catch(() => ({})); // p. ej. 413 devuelve HTML
       if (r.ok) { marcarCampos({}); mostrarMensaje('ok', 'Solicitud enviada. La veterinaria confirmará tu cita.'); formCitas.reset(); return; }
       errores = cuerpo.errores || {};
       if (!Object.keys(errores).length) { mostrarMensaje('error', cuerpo.error || 'No se pudo enviar la solicitud.'); return; }

@@ -1,0 +1,12 @@
+6 failed, 6 passed in 0.19s
+AttributeError: 'dict' object has no attribute 'strip'
+AttributeError: 'int' object has no attribute 'get'
+AttributeError: 'int' object has no attribute 'strip'
+AttributeError: 'list' object has no attribute 'get'
+AttributeError: 'list' object has no attribute 'strip'
+AttributeError: 'str' object has no attribute 'get'
+E       AssertionError: assert 500 == 400
+FAILED tests/test_api.py::test_campo_con_tipo_incorrecto_devuelve_400[correo-valor2]
+FAILED tests/test_api.py::test_campo_con_tipo_incorrecto_devuelve_400[mascota-nombre-valor1]
+FAILED tests/test_api.py::test_campo_con_tipo_incorrecto_devuelve_400[nombre-123]
+FAILED tests/test_api.py::test_json_que_no_es_objeto_devuelve_400[42] - Asser...

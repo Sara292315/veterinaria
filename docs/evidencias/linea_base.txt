@@ -1,0 +1,191 @@
+# Línea base (commit b9350b9) — 2026-10-26
+
+$ radon raw -s app.py database.py validators.py
+app.py
+    LOC: 42
+    LLOC: 32
+    SLOC: 31
+    Comments: 0
+    Single comments: 1
+    Multi: 0
+    Blank: 10
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+database.py
+    LOC: 38
+    LLOC: 18
+    SLOC: 28
+    Comments: 0
+    Single comments: 1
+    Multi: 0
+    Blank: 9
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+validators.py
+    LOC: 71
+    LLOC: 56
+    SLOC: 53
+    Comments: 0
+    Single comments: 4
+    Multi: 0
+    Blank: 14
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+** Total **
+    LOC: 151
+    LLOC: 106
+    SLOC: 112
+    Comments: 0
+    Single comments: 6
+    Multi: 0
+    Blank: 33
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+
+$ radon cc -s -a app.py database.py validators.py
+app.py
+    F 12:0 create_app - A (2)
+database.py
+    F 36:0 listar_citas - A (2)
+    F 8:0 _conectar - A (1)
+    F 14:0 init_db - A (1)
+    F 24:0 guardar_cita - A (1)
+validators.py
+    F 48:0 validar_cita - C (13)
+    F 23:0 validar_fecha - A (3)
+    F 15:0 validar_correo - A (2)
+    F 19:0 validar_telefono - A (2)
+    F 32:0 validar_horario - A (2)
+    F 41:0 validar_edad - A (2)
+
+11 blocks (classes, functions, methods) analyzed.
+Average complexity: A (2.8181818181818183)
+
+$ flake8 app.py database.py validators.py tests
+database.py:4:80: E501 line too long (80 > 79 characters)
+database.py:5:80: E501 line too long (81 > 79 characters)
+database.py:19:80: E501 line too long (85 > 79 characters)
+database.py:20:80: E501 line too long (87 > 79 characters)
+database.py:28:80: E501 line too long (86 > 79 characters)
+database.py:31:80: E501 line too long (93 > 79 characters)
+database.py:38:80: E501 line too long (89 > 79 characters)
+tests/test_api.py:1:80: E501 line too long (84 > 79 characters)
+tests/test_api.py:10:80: E501 line too long (81 > 79 characters)
+tests/test_api.py:11:80: E501 line too long (85 > 79 characters)
+tests/test_api.py:12:80: E501 line too long (84 > 79 characters)
+tests/test_validators.py:1:80: E501 line too long (83 > 79 characters)
+tests/test_validators.py:8:80: E501 line too long (85 > 79 characters)
+tests/test_validators.py:9:80: E501 line too long (87 > 79 characters)
+tests/test_validators.py:14:5: E128 continuation line under-indented for visual indent
+tests/test_validators.py:19:80: E501 line too long (85 > 79 characters)
+tests/test_validators.py:20:5: E128 continuation line under-indented for visual indent
+tests/test_validators.py:25:80: E501 line too long (83 > 79 characters)
+tests/test_validators.py:26:5: E128 continuation line under-indented for visual indent
+tests/test_validators.py:36:5: E128 continuation line under-indented for visual indent
+tests/test_validators.py:42:5: E128 continuation line under-indented for visual indent
+tests/test_validators.py:52:5: E128 continuation line under-indented for visual indent
+validators.py:1:80: E501 line too long (89 > 79 characters)
+
+$ pylint app.py database.py validators.py
+************* Module app
+app.py:12:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module database
+database.py:14:0: C0116: Missing function or method docstring (missing-function-docstring)
+database.py:24:0: C0116: Missing function or method docstring (missing-function-docstring)
+database.py:36:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module validators
+validators.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
+validators.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
+validators.py:41:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+------------------------------------------------------------------
+Your code has been rated at 9.28/10 (previous run: 9.28/10, +0.00)
+
+
+$ bandit -r . -x ./tests
+Run started:2026-10-27 01:55:28.983233+00:00
+
+Test results:
+>> Issue: [B201:flask_debug_true] A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.
+   Severity: High   Confidence: Medium
+   CWE: CWE-94 (https://cwe.mitre.org/data/definitions/94.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b201_flask_debug_true.html
+   Location: ./app.py:42:4
+41	if __name__ == "__main__":
+42	    create_app().run(debug=True)
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: ./database.py:31:14
+30	        cur = con.execute(
+31	            f"INSERT INTO citas ({','.join(CAMPOS)}) VALUES ({','.join('?' * len(CAMPOS))})",
+32	            valores)
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 118
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 0
+		Medium: 1
+		High: 1
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 2
+		High: 0
+Files skipped (0):
+
+$ pytest --cov-branch
+.............................................../usr/local/lib/python3.13/collections/__init__.py:452: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7feeb5f87b50>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/local/lib/python3.13/collections/__init__.py:452: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7feeb5f87970>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/local/lib/python3.13/collections/__init__.py:452: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7feeb5f85e40>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+=============================== warnings summary ===============================
+tests/test_api.py::test_crear_cita_devuelve_201_y_se_persiste
+
+tests/test_api.py::test_cuerpo_que_no_es_json_devuelve_400
+
+tests/test_api.py::test_cuerpo_que_no_es_json_devuelve_400
+
+tests/test_api.py::test_cuerpo_que_no_es_json_devuelve_400
+
+tests/test_api.py::test_cuerpo_que_no_es_json_devuelve_400
+
+tests/test_api.py::test_cuerpo_que_no_es_json_devuelve_400
+
+tests/test_api.py::test_pagina_principal_se_sirve
+
+tests/test_api.py::test_pagina_principal_se_sirve
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.13.17-final-0 _______________
+
+Name            Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------
+app.py             31      1      4      1    94%   42
+database.py        17      0      0      0   100%
+validators.py      52      0     20      0   100%
+-----------------------------------------------------------
+TOTAL             100      1     24      1    98%
+Coverage HTML written to dir htmlcov
+47 passed, 8 warnings in 0.32s

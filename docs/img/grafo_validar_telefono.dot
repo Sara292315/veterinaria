@@ -1,0 +1,19 @@
+digraph G {
+  graph [rankdir=TB, fontname="Helvetica", nodesep=0.5, ranksep=0.45, label="Grafo de flujo de validar_telefono (validators.py L35-44)\nN = 8 nodos, E = 10 aristas, V(G) = 10 - 8 + 2 = 4\nRegiones: R1 (1-2-8-7-5-3), R2 (3-4-5), R3 (5-6-8-7), R4 exterior", labelloc=b, fontsize=12];
+  node [shape=circle, fontname="Helvetica", fontsize=12, width=0.55, fixedsize=true, style=filled, fillcolor="#eef4f1", color="#2f5d50"];
+  edge [fontname="Helvetica", fontsize=10, color="#444444"];
+  1 [label="1\nP1", fillcolor="#ffe9c7"];
+  3 [label="3\nP2", fillcolor="#ffe9c7"];
+  5 [label="5\nP3", fillcolor="#ffe9c7"];
+  8 [label="8\nfin", shape=doublecircle, width=0.5];
+  1 -> 2 [label=" V"];
+  1 -> 3 [label=" F"];
+  3 -> 4 [label=" V"];
+  3 -> 5 [label=" F"];
+  4 -> 5;
+  5 -> 6 [label=" V"];
+  5 -> 7 [label=" F"];
+  2 -> 8; 6 -> 8; 7 -> 8;
+  {rank=same; 2; 3}
+  {rank=same; 6; 7}
+}

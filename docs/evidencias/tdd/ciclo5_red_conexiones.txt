@@ -1,0 +1,2 @@
+FAILED tests/test_database.py::test_las_conexiones_siempre_se_cierran
+1 failed, 4 passed in 0.06s

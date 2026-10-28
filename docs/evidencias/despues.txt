@@ -1,0 +1,103 @@
+# Después (commit 48c886d) — 2026-10-26
+
+$ radon raw -s app.py database.py validators.py
+app.py
+    LOC: 80
+    LLOC: 57
+    SLOC: 57
+    Comments: 2
+database.py
+    LOC: 70
+    LLOC: 41
+    SLOC: 48
+    Comments: 3
+validators.py
+    LOC: 131
+    LLOC: 77
+    SLOC: 88
+    Comments: 1
+** Total **
+    LOC: 281
+    LLOC: 175
+    SLOC: 193
+    Comments: 6
+
+$ radon cc -s -a --show-closures app.py database.py validators.py
+app.py
+    F 51:4 create_app.crear_cita - A (4)
+    F 27:0 create_app - A (3)
+    F 67:4 create_app.obtener_citas - A (3)
+    F 21:0 token_valido - A (2)
+    F 47:4 create_app.index - A (1)
+    F 42:4 create_app.agregar_cabeceras - A (1)
+database.py
+    F 50:0 _a_fila - A (5)
+    F 67:0 listar_citas - A (2)
+    F 61:0 guardar_cita - A (1)
+    F 44:0 init_db - A (1)
+    F 33:0 _conexion - A (1)
+validators.py
+    F 125:0 validar_cita - A (4)
+    F 35:0 validar_telefono - A (4)
+    F 47:0 validar_fecha - A (3)
+    F 88:0 _texto_hasta - A (2)
+    F 78:0 _opcional - A (2)
+    F 65:0 validar_edad - A (2)
+    F 56:0 validar_horario - A (2)
+    F 25:0 _texto - A (2)
+    F 83:0 _en - A (1)
+    F 73:0 _longitud_entre - A (1)
+    F 30:0 validar_correo - A (1)
+
+22 blocks (classes, functions, methods) analyzed.
+Average complexity: A (2.1818181818181817)
+
+$ flake8 .
+(sin advertencias)
+
+$ pylint app.py database.py validators.py
+
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
+$ pylint --rcfile=/dev/null --disable=import-error tests  (pendiente aceptado)
+------------------------------------------------------------------
+Your code has been rated at 8.11/10 (previous run: 6.34/10, +1.76)
+
+
+$ bandit -r . -x ./tests
+(sin hallazgos)
+
+$ xenon --max-absolute B --max-modules A --max-average A *.py
+(cumple)
+
+$ pytest -W error::ResourceWarning
+........................................................................ [ 70%]
+..............................                                           [100%]
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.13.17-final-0 _______________
+
+Name            Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------
+app.py             50      0     10      0   100%
+database.py        32      0      4      0   100%
+validators.py      59      0      8      0   100%
+-----------------------------------------------------------
+TOTAL             141      0     22      0   100%
+Coverage HTML written to dir htmlcov
+Required test coverage of 95.0% reached. Total coverage: 100.00%
+102 passed, 2 deselected in 0.57s
+
+$ pytest -m e2e --no-cov
+2 passed, 102 deselected in 4.54s
+
+$ node --test frontend/tests/*.test.js
+ok 1 - JS-01 una cita válida no tiene errores
+ok 2 - JS-02 teléfono exige 7-15 dígitos reales (paridad con backend)
+ok 3 - JS-03 valores límite de edad y hora
+ok 4 - JS-04 cada campo inválido se reporta solo
+ok 5 - JS-05 hoyISO usa la fecha local, no UTC
+ok 6 - JS-06 fecha: hoy sí, ayer no, formato inválido no
+# tests 6
+# pass 6
+# fail 0

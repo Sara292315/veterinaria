@@ -1,7 +1,35 @@
 name: CI
 on: [push, pull_request]
+
 jobs:
-  pruebas:
+  # Etapa 1 - PRUEBA ESTÁTICA: se analiza el código sin ejecutarlo.
+  analisis-estatico:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements-dev.txt
+      - run: pip install flake8 pylint bandit radon xenon -r requirements.txt
+      - name: Estilo PEP 8 (flake8)
+        run: flake8 .
+      - name: Calidad (pylint, mínimo 9.5/10)
+        run: pylint app.py database.py validators.py --fail-under=9.5
+      - name: Seguridad (bandit, falla con severidad media o alta)
+        run: bandit -r . -x ./tests -ll
+      - name: Complejidad ciclomática (xenon, máximo B por función)
+        run: |
+          radon cc -s -a app.py database.py validators.py
+          xenon --max-absolute B --max-modules A --max-average A app.py database.py validators.py
+
+  # Etapa 2 - PRUEBA DINÁMICA: unitarias + integración con cobertura.
+  pruebas-backend:
+    needs: analisis-estatico
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -14,10 +42,43 @@ jobs:
           cache: pip
           cache-dependency-path: backend/requirements.txt
       - run: pip install -r requirements.txt
-      - name: Ejecutar pruebas (falla si la cobertura es menor a 90 %)
-        run: pytest --cov-fail-under=90
+      - name: pytest (falla si la cobertura de sentencias+ramas < 95 %)
+        run: pytest -W error::ResourceWarning
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: reporte-cobertura
           path: backend/htmlcov
+
+  # Etapa 2b - PRUEBA DINÁMICA: unitarias del validador del navegador.
+  pruebas-frontend:
+    needs: analisis-estatico
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Sintaxis JS
+        run: node --check frontend/js/validators.js && node --check frontend/js/script.js
+      - name: node --test
+        run: node --test frontend/tests/*.test.js
+
+  # Etapa 3 - PRUEBA DINÁMICA: sistema/aceptación en navegador real.
+  pruebas-sistema:
+    needs: [pruebas-backend, pruebas-frontend]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements-dev.txt
+      - run: pip install -r requirements.txt playwright
+      - run: python -m playwright install --with-deps chromium
+      - name: Pruebas E2E (Playwright)
+        run: pytest -m e2e --no-cov

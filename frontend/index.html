@@ -116,7 +116,7 @@
       <h3>Datos del propietario</h3>
       <div class="field">
         <label for="nombre">Nombre completo <span class="req">*</span></label>
-        <input type="text" id="nombre" name="nombre" placeholder="Ej. Sarah Morgensztern" required>
+        <input type="text" id="nombre" name="nombre" maxlength="100" placeholder="Ej. Sarah Morgensztern" required>
       </div>
       <div class="field">
         <label for="correo">Correo electrónico <span class="req">*</span></label>
@@ -124,7 +124,7 @@
       </div>
       <div class="field">
         <label for="telefono">Número de teléfono <span class="req">*</span></label>
-        <input type="tel" id="telefono" name="telefono" pattern="[0-9 +]{7,15}" placeholder="300 123 4567" required>
+        <input type="tel" id="telefono" name="telefono" pattern="\+?[0-9 ]{7,20}" placeholder="300 123 4567" required>
       </div>
       <div class="field">
         <label for="canal">Canal de contacto preferido</label>
@@ -138,7 +138,7 @@
       <h3>Datos de la mascota</h3>
       <div class="field">
         <label for="mascota-nombre">Nombre de la mascota <span class="req">*</span></label>
-        <input type="text" id="mascota-nombre" name="mascota-nombre" required>
+        <input type="text" id="mascota-nombre" name="mascota-nombre" maxlength="50" required>
       </div>
       <div class="field">
         <label for="especie">Especie</label>
@@ -151,7 +151,7 @@
       </div>
       <div class="field">
         <label for="raza">Raza</label>
-        <input type="text" id="raza" name="raza" placeholder="Ej. Criollo, Labrador...">
+        <input type="text" id="raza" name="raza" maxlength="60" placeholder="Ej. Criollo, Labrador...">
       </div>
       <div class="field">
         <label for="edad">Edad (años)</label>
@@ -202,11 +202,11 @@
       </div>
       <div class="field full">
         <label for="motivo">Motivo de la consulta</label>
-        <textarea id="motivo" name="motivo" rows="3" placeholder="Describe brevemente el motivo de la visita"></textarea>
+        <textarea id="motivo" name="motivo" rows="3" maxlength="500" placeholder="Describe brevemente el motivo de la visita"></textarea>
       </div>
       <div class="field full">
         <label for="observaciones">Observaciones adicionales</label>
-        <textarea id="observaciones" name="observaciones" rows="2" placeholder="Alergias, comportamiento, tratamientos previos..."></textarea>
+        <textarea id="observaciones" name="observaciones" rows="2" maxlength="500" placeholder="Alergias, comportamiento, tratamientos previos..."></textarea>
       </div>
 
       <div class="form-actions">
