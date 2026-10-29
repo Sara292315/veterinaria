@@ -112,6 +112,8 @@
       <p>Completa el formulario con los datos del propietario, la mascota y el servicio que necesitas. La veterinaria confirmará la disponibilidad por correo o teléfono.</p>
     </div>
 
+    <div id="form-modo" class="api-msg api-msg--info" role="status" hidden></div>
+
     <form id="form-citas" novalidate>
       <h3>Datos del propietario</h3>
       <div class="field">
@@ -209,6 +211,8 @@
         <textarea id="observaciones" name="observaciones" rows="2" placeholder="Alergias, comportamiento, tratamientos previos..."></textarea>
       </div>
 
+      <div id="form-estado" class="api-msg" role="alert" hidden></div>
+
       <div class="form-actions">
         <button type="submit" class="btn">Enviar solicitud</button>
         <button type="reset" class="btn btn-outline" style="color:var(--pine-dark);border-color:var(--pine-dark);">Limpiar formulario</button>
@@ -221,7 +225,7 @@
     <p class="eyebrow">Historial de atención</p>
     <div class="section-head">
       <h2 id="expediente-h">Expediente de la mascota</h2>
-      <p>Ejemplo de cómo se vería el expediente de una mascota registrada, con su información básica y su historial de citas.</p>
+      <p>Ejemplo de cómo se vería el expediente de una mascota registrada y el listado de citas guardadas en la plataforma. Desde la columna Acciones puedes ver, editar o eliminar cada cita.</p>
     </div>
 
     <div class="mascota-card">
@@ -232,41 +236,21 @@
       </div>
     </div>
 
+    <div id="citas-estado" class="api-msg" role="status" hidden></div>
+
     <table>
-      <caption>Historial de citas de Toby</caption>
+      <caption>Citas registradas</caption>
       <thead>
         <tr>
           <th scope="col">Fecha</th>
           <th scope="col">Servicio</th>
-          <th scope="col">Veterinario</th>
+          <th scope="col">Mascota</th>
           <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>12 mar 2026</td>
-          <td>Vacunación</td>
-          <td>Dr. Andrés Rojas</td>
-          <td>Completada</td>
-        </tr>
-        <tr>
-          <td>28 may 2026</td>
-          <td>Desparasitación</td>
-          <td>Dra. Laura Peña</td>
-          <td>Completada</td>
-        </tr>
-        <tr>
-          <td>15 ago 2026</td>
-          <td>Consulta preventiva</td>
-          <td>Dr. Andrés Rojas</td>
-          <td>Completada</td>
-        </tr>
-        <tr>
-          <td>03 oct 2026</td>
-          <td>Control veterinario</td>
-          <td>Dra. Laura Peña</td>
-          <td>Programada</td>
-        </tr>
+        <tr><td colspan="5">Cargando citas…</td></tr>
       </tbody>
     </table>
   </section>
@@ -354,7 +338,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<dialog id="cita-detalle" class="api-dialog" aria-labelledby="cita-detalle-titulo"></dialog>
+
 <script src="js/script.js"></script>
+<script src="js/api.js"></script>
 
 </body>
 </html>

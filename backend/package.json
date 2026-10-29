@@ -1,0 +1,26 @@
+{
+  "name": "vetconnect-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API REST de citas para VetConnect (Express) que también sirve el frontend",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true
+  }
+}

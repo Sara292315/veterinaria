@@ -1,7 +1,4 @@
-document.getElementById('form-citas').addEventListener('submit', function(e){
-  e.preventDefault();
-  alert('Solicitud de cita enviada (demostración). En la versión funcional esto se conectará al backend.');
-});
+/* El envío de #form-citas (POST/PUT /api/citas) se maneja en js/api.js */
 document.getElementById('form-contacto').addEventListener('submit', function(e){
   e.preventDefault();
   alert('Mensaje enviado (demostración).');
